@@ -108,7 +108,7 @@ const IOSSwitch = withStyles((theme) => ({
   );
 });
 
-export default function SignIn({singUP, handleChange }) {
+export default function SignUp({singUP, handleChange }) {
   const classes = useStyles();
 
   return (
@@ -119,7 +119,7 @@ export default function SignIn({singUP, handleChange }) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Sign Up
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
@@ -133,6 +133,7 @@ export default function SignIn({singUP, handleChange }) {
             autoComplete="email"
             autoFocus
           />
+          
           <TextField
             variant="outlined"
             margin="normal"
@@ -144,9 +145,16 @@ export default function SignIn({singUP, handleChange }) {
             id="password"
             autoComplete="current-password"
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="Confirmpassword"
+            label="Confirm Password"
+            type="cf_password"
+            id="cf_password"
+            autoComplete="current-password"
           />
           <Button
             type="submit"
@@ -158,15 +166,11 @@ export default function SignIn({singUP, handleChange }) {
             Sign In
           </Button>
           <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
             <Grid item>
             <FormControlLabel
                 control={<IOSSwitch checked={singUP} onChange={handleChange} name="checkedB" />}
-                  label="Sign UP"
+                  label="Sign In"
+                  labelPlacement="start"
               />
             </Grid>
           </Grid>
