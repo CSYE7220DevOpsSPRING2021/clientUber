@@ -22,7 +22,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+        @Product of Junma & Shams
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -163,7 +163,7 @@ export default function SignUp({singUP, handleChange }) {
             color="primary"
             className={classes.submit}
           >
-            Sign In
+            Sign Up
           </Button>
           <Grid container>
             <Grid item>

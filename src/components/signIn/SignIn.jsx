@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useContext }  from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -22,7 +22,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      @Product of Junma & Shams
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -108,8 +108,67 @@ const IOSSwitch = withStyles((theme) => ({
   );
 });
 
+const localStorageAuthKey = 'twtr:auth';
+function saveAuthorisation(keys) {
+  if (typeof Storage !== 'undefined') {
+      try {
+          localStorage.setItem(localStorageAuthKey, JSON.stringify(keys));
+
+      } catch (ex) {
+          console.log(ex);
+      }
+  } else {
+      // No web storage Support :-(
+  }
+}
+
 export default function SignIn({singUP, handleChange }) {
   const classes = useStyles();
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  function handleSubmit(event) {
+    event.preventDefault()
+
+    const paramdict = {
+      'name': username,
+      'password': password
+    }
+    const config = {
+      method: 'POST',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(paramdict)
+    }
+    console.log("sending out:");
+    console.log(paramdict);
+
+   fetch(`http://localhost:5000/login`, config)
+      .then(response => response.json())
+      .then(data => {
+
+        // save to local storage
+        console.log("received these keys in return:")
+        console.log(data);
+        console.log(data[0].access_token);
+        console.log(data[0].refresh_token);
+        console.log('---');
+        saveAuthorisation({
+          access: data[0].access_token,
+          refresh: data[0].refresh_token,
+        });
+
+        // back to landing page!
+        //history.push("/");
+      })
+      .catch( (err) => {
+        alert(err);
+        console.log(err);
+      });
+  }
+
 
   return (
     <Container className="main" component="main" maxWidth="xs">
@@ -123,17 +182,21 @@ export default function SignIn({singUP, handleChange }) {
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
+            value={username}
             variant="outlined"
             margin="normal"
+            onInput={(e) => setUsername(e.target.value)}
             required
             fullWidth
             id="email"
             label="Email Address"
             name="email"
-            autoComplete="email"
+            //autoComplete="email"
             autoFocus
           />
           <TextField
+            value={password}
+            onInput={(e) => setPassword(e.target.value)}
             variant="outlined"
             margin="normal"
             required
@@ -154,6 +217,7 @@ export default function SignIn({singUP, handleChange }) {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleSubmit}
           >
             Sign In
           </Button>
