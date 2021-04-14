@@ -7,7 +7,7 @@ const citiesmap = cities.map((city) => ({
     text: city.city,
     value: { name: city.city, long: city.longitude, lati: city.latitude }
 }))
-export default function DataForm() {
+export default function DataForm({setpathCoordinates}) {
     const [destbool, setdestbool] = React.useState(true);
     const [source, setsource] = React.useState({});
     const [desination, setdestination] = React.useState({});
@@ -17,6 +17,11 @@ export default function DataForm() {
     }
     const changeDestination= (e,{value})=>{
         setdestination(value);
+        let data= [
+            { lat: source.lati, lng: source.long },
+            { lat: desination.lati, lng: desination.long }
+          ];
+          setpathCoordinates(data);
     }
 
 
