@@ -16,12 +16,13 @@ export default function DataForm({setpathCoordinates}) {
         setdestbool(false);
     }
     const changeDestination= (e,{value})=>{
-        setdestination(value);
+        
         let data= [
             { lat: source.lati, lng: source.long },
-            { lat: desination.lati, lng: desination.long }
+            { lat: value.lati, lng: value.long }
           ];
           setpathCoordinates(data);
+          setdestination(value);
     }
 
 
