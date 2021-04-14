@@ -6,7 +6,12 @@ h1, p {
   background-color: rgb(250, 255, 255, 0.625);
   border-radius: 10px;
 }
-
+.rowHeight{
+  height: 100% !important;
+}
+.ui{
+  height:100%
+}
 .footer{
   margin-top: 1rem;
   padding: 1rem;

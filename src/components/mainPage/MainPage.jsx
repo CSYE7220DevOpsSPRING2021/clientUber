@@ -47,9 +47,9 @@ export default function MainPage() {
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
-        {page=="BOOKING"?<>
+        {page=="BOOKING"?<div className='rowHeight' >
         <BookingPage/>
-        </>
+        </div>
         :<>
         <DetailPage />
         </>}

@@ -8,6 +8,7 @@ import SignUp from "./components/signUp/SignUp";
 import MainPage from "./components/mainPage/MainPage";
 import "./style.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'semantic-ui-css/semantic.min.css'
 
 
 class App extends Component {
