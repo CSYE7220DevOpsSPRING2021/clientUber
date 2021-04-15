@@ -122,7 +122,7 @@ function saveAuthorisation(keys) {
   }
 }
 
-export default function SignIn({singUP, handleChange }) {
+export default function SignIn({singUP, handleChange,logginOn }) {
   const classes = useStyles();
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -131,7 +131,7 @@ export default function SignIn({singUP, handleChange }) {
     event.preventDefault()
 
     const paramdict = {
-      'name': username,
+      'username': username,
       'password': password
     }
     const config = {
@@ -145,20 +145,23 @@ export default function SignIn({singUP, handleChange }) {
     console.log("sending out:");
     console.log(paramdict);
 
-   fetch(`http://localhost:5000/login`, config)
+   fetch(`http://localhost:5000/user/signin`, config)
       .then(response => response.json())
       .then(data => {
 
         // save to local storage
         console.log("received these keys in return:")
         console.log(data);
-        console.log(data[0].access_token);
-        console.log(data[0].refresh_token);
+        console.log(data['access_token']);
+        console.log(data['refresh_token']);
         console.log('---');
         saveAuthorisation({
-          access: data[0].access_token,
-          refresh: data[0].refresh_token,
+          access: data['access_token'],
+          refresh: data['refresh_token'],
+          username:username
         });
+        
+        if(data['access_token']!='undefine'&&data['access_token']!=null ) logginOn()
 
         // back to landing page!
         //history.push("/");

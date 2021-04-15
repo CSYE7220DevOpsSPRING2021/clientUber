@@ -17,15 +17,15 @@ class App extends Component {
     this.state = {
       name: "React",
       SignIn:false,
-      loggedIn:true
+      loggedIn:false
     };
   }
 
-  logginOn=(event)=> {
+  logginOn = (event)=> {
     this.setState((state)=>({loggedIn:true}))
   }
 
-  logginOff=(event)=> {
+  logginOff = (event)=> {
     this.setState((state)=>({loggedIn:false}))
   }
 
@@ -41,9 +41,11 @@ class App extends Component {
             <SignIn
               singUP={this.state.SignIn}
               handleChange={this.handleChange}
+              logginOn={this.logginOn}
             />:<SignUp
                 singUP={this.state.SignIn}
                 handleChange={this.handleChange}
+                logginOn={this.logginOn}
               />}
           </>:<>
             <MainPage/>

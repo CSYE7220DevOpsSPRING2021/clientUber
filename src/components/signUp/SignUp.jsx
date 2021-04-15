@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState, useContext} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -108,8 +108,72 @@ const IOSSwitch = withStyles((theme) => ({
   );
 });
 
-export default function SignUp({singUP, handleChange }) {
+const localStorageAuthKey = 'twtr:auth';
+function saveAuthorisation(keys) {
+  if (typeof Storage !== 'undefined') {
+      try {
+          localStorage.setItem(localStorageAuthKey, JSON.stringify(keys));
+
+      } catch (ex) {
+          console.log(ex);
+      }
+  } else {
+      // No web storage Support :-(
+  }
+}
+
+export default function SignUp({singUP, handleChange,logginOn }) {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setconfirmPassword] = useState('')
+
   const classes = useStyles();
+
+  function handleSubmit(event) {
+    event.preventDefault()
+
+    const paramdict = {
+      'username': username,
+      'password': password
+    }
+    const config = {
+      method: 'POST',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(paramdict)
+    }
+    console.log("sending out:");
+    console.log(paramdict);
+
+   fetch(`http://localhost:5000/user/signup`, config)
+      .then(response => response.json())
+      .then(data => {
+
+        // save to local storage
+        console.log("received these keys in return:")
+        console.log(data);
+        console.log(data['access_token']);
+        console.log(data['refresh_token']);
+        console.log('---');
+        saveAuthorisation({
+          access: data['access_token'],
+          refresh: data['refresh_token'],
+          username:username
+        });
+        
+        if(data['access_token']!='undefine'&&data['access_token']!=null ) logginOn()
+
+        // back to landing page!
+        //history.push("/");
+      })
+      .catch( (err) => {
+        alert(err);
+        console.log(err);
+      });
+  }
+
 
   return (
     <Container className="main" component="main" maxWidth="xs">
@@ -123,6 +187,8 @@ export default function SignUp({singUP, handleChange }) {
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
+            value={username}
+            onInput={(e) => setUsername(e.target.value)}
             variant="outlined"
             margin="normal"
             required
@@ -135,6 +201,8 @@ export default function SignUp({singUP, handleChange }) {
           />
           
           <TextField
+            value={password}
+            onInput={(e) => setPassword(e.target.value)}
             variant="outlined"
             margin="normal"
             required
@@ -146,13 +214,15 @@ export default function SignUp({singUP, handleChange }) {
             autoComplete="current-password"
           />
           <TextField
+            value={confirmPassword}
+            onInput={(e) => setconfirmPassword(e.target.value)}
             variant="outlined"
             margin="normal"
             required
             fullWidth
             name="Confirmpassword"
             label="Confirm Password"
-            type="cf_password"
+            type="password"
             id="cf_password"
             autoComplete="current-password"
           />
@@ -162,6 +232,7 @@ export default function SignUp({singUP, handleChange }) {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleSubmit}
           >
             Sign Up
           </Button>
