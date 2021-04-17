@@ -20,6 +20,7 @@
     "react-native-maps": "^0.27.1",
     "react-native-maps-directions": "^1.8.0",
     "react-scripts": "4.0.3",
+    "react-semantic-ui-datepickers": "^2.13.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
     "web-vitals": "^1.1.1"

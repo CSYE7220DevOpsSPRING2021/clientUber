@@ -54,8 +54,8 @@ export default function DataForm({setpathCoordinates}) {
                 />
             </Form.Field>
             <Form.Field>
-                <label>date</label>
-                <input placeholder='Last Name' />
+                <label>contact no</label>
+                <input placeholder='contact no' />
             </Form.Field>
             <Form.Field>
                 <Checkbox label='I agree to the Terms and Conditions' />

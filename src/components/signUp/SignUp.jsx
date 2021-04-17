@@ -160,7 +160,7 @@ export default function SignUp({singUP, handleChange,logginOn }) {
         saveAuthorisation({
           access: data['access_token'],
           refresh: data['refresh_token'],
-          username:username
+          username:username,
         });
         
         if(data['access_token']!='undefine'&&data['access_token']!=null ) logginOn()

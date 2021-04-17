@@ -5,6 +5,25 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import BookingPage from "../Booking/BookingPage"
 import DetailPage from "../DetailPage/DetailPage"
+import AddBus from "../addBus/AddBus"
+
+
+const localStorageAuthKey = 'twtr:auth';
+function getAccessToken() {
+  if (typeof Storage !== 'undefined') {
+      try {
+        var keys = JSON.parse(localStorage.getItem(localStorageAuthKey));
+        return keys.username;
+        // the refresh token is keys.refresh
+
+      } catch (ex) {
+          console.log(ex);
+      }
+  } else {
+      // No web storage Support :-(
+  }
+}
+
 
 function Copyright() {
     return (
@@ -36,6 +55,16 @@ export default function MainPage() {
         e.preventDefault();
         setPage("DETAIL");
     }
+    const BusSet=(e)=>{
+      e.preventDefault();
+      setPage("BUS");
+  }
+
+  const userType=getAccessToken();
+  
+  
+
+
     return (<>
         <Navbar bg="dark" variant="dark" expand="lg">
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -44,14 +73,17 @@ export default function MainPage() {
                 <Nav className="mr-auto">
                     <Nav.Link onClick={(event)=>bookingSet(event)}>Booking</Nav.Link>
                     <Nav.Link onClick={(event)=>detailSet(event)}>Detail Page</Nav.Link>
+                    {userType=='admin'?<Nav.Link onClick={(event)=>BusSet(event)}>Add Bus</Nav.Link>:''}
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
         {page=="BOOKING"?<div className='rowHeight' >
         <BookingPage/>
         </div>
-        :<>
+        :page=="DETAIL"?<>
         <DetailPage />
+        </>:<>
+        <AddBus/>
         </>}
         <Footer/>
     </>)
