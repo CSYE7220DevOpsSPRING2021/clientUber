@@ -1,16 +1,50 @@
 import React from 'react';
 import { Button, Form, Dropdown, Checkbox } from 'semantic-ui-react'
 import cities from "../../dataValues/cities"
+import SemanticDatepicker from 'react-semantic-ui-datepickers';
 
 const citiesmap = cities.map((city) => ({
     key: city.rank,
     text: city.city,
     value: { name: city.city, long: city.longitude, lati: city.latitude }
 }))
+const localStorageAuthKey = 'twtr:auth';
+function getAccessToken() {
+  if (typeof Storage !== 'undefined') {
+      try {
+        var keys = JSON.parse(localStorage.getItem(localStorageAuthKey));
+        return keys.access;
+        // the refresh token is keys.refresh
+
+      } catch (ex) {
+          console.log(ex);
+      }
+  } else {
+      // No web storage Support :-(
+  }
+}
+function getusernameToken() {
+    if (typeof Storage !== 'undefined') {
+        try {
+          var keys = JSON.parse(localStorage.getItem(localStorageAuthKey));
+          return keys.username;
+          // the refresh token is keys.refresh
+  
+        } catch (ex) {
+            console.log(ex);
+        }
+    } else {
+        // No web storage Support :-(
+    }
+  }
 export default function DataForm({setpathCoordinates}) {
     const [destbool, setdestbool] = React.useState(true);
     const [source, setsource] = React.useState({});
     const [desination, setdestination] = React.useState({});
+    const [busstartdate, setbusstartdate] = React.useState(new Date());
+    const [busenddate, setbusenddate] = React.useState(new Date());
+    const [contactno, setcontactnumber] = React.useState('');
+    const [busNumber, setbusNumber] = React.useState('');
     const changeSource= (e,{value})=>{
         setsource(value);
         setdestbool(false);
@@ -24,12 +58,52 @@ export default function DataForm({setpathCoordinates}) {
           setpathCoordinates(data);
           setdestination(value);
     }
+    const submitValue=async()=>{
+        const access_token = getAccessToken();
+        const username=getusernameToken();
+        const data={
+            "Number":busNumber,
+            "contactinfo":{
+                "phone":contactno,
+                "name":username
+            },
+            "Departtime":busstartdate.getUTCFullYear() +"/"+ (busstartdate.getUTCMonth()+1) +"/"+ busstartdate.getUTCDate() + " " + busstartdate.getUTCHours() + ":" + busstartdate.getUTCMinutes(),
+            "Depart":source.name,
+            "Arrive":desination.name
+        }
+        console.log("data--->",data);
+        const config = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': "Bearer "+access_token
+            },
+            body: JSON.stringify(data)
+          }
 
+          const response = await fetch(`http://localhost:5000/booking/createbooking`, config);
+          console.log("res-->",response)
+    }
 
     return (
         <Form>
             <Form.Field>
-                <label>First Name</label>
+            <SemanticDatepicker 
+                    fluid 
+                    label='start date' 
+                    size='large' 
+                    value={busstartdate} 
+                    format={'YYYY/MM/DD'}
+                    onChange={(e,{value})=>{setbusstartdate(value)}}/>
+            <SemanticDatepicker 
+                    fluid 
+                    label='end date' 
+                    size='large' 
+                    value={busenddate} 
+                    format={'YYYY/MM/DD'}
+                    onChange={(e,{value})=>{setbusenddate(value)}}/>
+                <label>source</label>
                 <Dropdown
                     placeholder='Source'
                     fluid
@@ -41,7 +115,7 @@ export default function DataForm({setpathCoordinates}) {
                 />
             </Form.Field>
             <Form.Field>
-                <label>Last Name</label>
+                <label>destination</label>
                 <Dropdown
                     placeholder='destination'
                     fluid
@@ -55,12 +129,16 @@ export default function DataForm({setpathCoordinates}) {
             </Form.Field>
             <Form.Field>
                 <label>contact no</label>
-                <input placeholder='contact no' />
+                <Form.Input placeholder='contact no' value={contactno} onChange={(e,{value})=>{setcontactnumber(value)}}/>
+            </Form.Field>
+            <Form.Field>
+                <label>bus no</label>
+                <Form.Input placeholder='bus no' value={busNumber}  onChange={(e,{value})=>{setbusNumber(value)}}/>
             </Form.Field>
             <Form.Field>
                 <Checkbox label='I agree to the Terms and Conditions' />
             </Form.Field>
-            <Button type='submit'>Submit</Button>
+            <Button type='submit'onClick={submitValue}>Submit</Button>
         </Form>
     )
 }

@@ -83,7 +83,8 @@ function getAccessToken() {
                     />
                     <Form.Select
                         label='destination'
-                        value={desination}                        options={citiesmap}
+                        value={desination}                        
+                        options={citiesmap}
                         placeholder='Gender'
                         onChange={(e,{value})=>setdestination(value)}
                     />
