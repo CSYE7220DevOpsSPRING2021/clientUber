@@ -16,6 +16,7 @@ import { withStyles } from '@material-ui/core/styles';
 import FormGroup from '@material-ui/core/FormGroup';
 //import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import varibale from '../../dataValues/const'
 
 function Copyright() {
   return (
@@ -147,7 +148,7 @@ export default function SignUp({singUP, handleChange,logginOn }) {
     console.log("sending out:");
     console.log(paramdict);
 
-   fetch(`http://localhost:5000/user/signup`, config)
+   fetch(varibale.backEndApi+`/user/signup`, config)
       .then(response => response.json())
       .then(data => {
 

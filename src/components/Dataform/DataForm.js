@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Form, Dropdown, Checkbox } from 'semantic-ui-react'
 import cities from "../../dataValues/cities"
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
+import varibale from '../../dataValues/const'
 
 const citiesmap = cities.map((city) => ({
     key: city.rank,
@@ -39,8 +40,8 @@ function getusernameToken() {
   }
 export default function DataForm({setpathCoordinates}) {
     const [destbool, setdestbool] = React.useState(true);
-    const [source, setsource] = React.useState({});
-    const [desination, setdestination] = React.useState({});
+    const [source, setsource] = React.useState({name: 'Boston', long: -71.0588801, lati: 42.3600825 });
+    const [desination, setdestination] = React.useState({name: 'Boston', long: -71.0588801, lati: 42.3600825 });
     const [busstartdate, setbusstartdate] = React.useState(new Date());
     const [busenddate, setbusenddate] = React.useState(new Date());
     const [contactno, setcontactnumber] = React.useState('');
@@ -82,7 +83,7 @@ export default function DataForm({setpathCoordinates}) {
             body: JSON.stringify(data)
           }
 
-          const response = await fetch(`http://localhost:5000/booking/createbooking`, config);
+          const response = await fetch(varibale.backEndApi+`/booking/createbooking`, config);
           console.log("res-->",response)
     }
 

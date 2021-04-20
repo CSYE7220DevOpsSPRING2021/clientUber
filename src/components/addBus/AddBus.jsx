@@ -2,6 +2,7 @@ import cities from "../../dataValues/cities"
 import { Button, Form, Dropdown, Checkbox,Segment } from 'semantic-ui-react'
 import React,{ Component } from 'react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
+import varibale from '../../dataValues/const'
 const citiesmap = cities.map((city) => ({
     key: city.rank,
     text: city.city,
@@ -24,12 +25,18 @@ function getAccessToken() {
 }
 
   export default function AddBus(){
-    const [source, setsource] = React.useState({});
-    const [desination, setdestination] = React.useState({});
+    const [source, setsource] = React.useState({name: 'Boston', long: -71.0588801, lati: 42.3600825 });
+    const [desination, setdestination] = React.useState({name: 'Boston', long: -71.0588801, lati: 42.3600825 });
     const [busNumber, setbusNumber] = React.useState('');
     const [busdate, setbusdate] = React.useState(new Date());
     const [busType, setbusType] = React.useState('');
-
+    const clear=()=>{
+        setsource({name: 'Boston', long: -71.0588801, lati: 42.3600825 })
+        setdestination({name: 'Boston', long: -71.0588801, lati: 42.3600825 })
+        setbusNumber('')
+        setbusType('')
+        setbusdate(new Date())
+    }
     const submitvalue=async()=>{
         
         
@@ -53,8 +60,11 @@ function getAccessToken() {
             body: JSON.stringify(data)
           }
 
-          const response = await fetch(`http://localhost:5000/bus/insertone`, config);
+          const response = await fetch(varibale.backEndApi+`/bus/insertone`, config);
           console.log("responce---->",response)
+          if(response.status==200){
+            clear()
+          }
     }
     
     

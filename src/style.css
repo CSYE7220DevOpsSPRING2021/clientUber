@@ -16,7 +16,7 @@ h1, p {
   margin-top: 1rem;
   padding: 1rem;
   background-color: rgb(235, 195, 64);
-  position: fixed;
+  position: relative;
   bottom: 0;
   left: 0;
   width: 100%;

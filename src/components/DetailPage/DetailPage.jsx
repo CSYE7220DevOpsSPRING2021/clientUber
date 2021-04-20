@@ -1,6 +1,7 @@
 import datapoint from "../../dataValues/datapoints"
 import { Table } from 'semantic-ui-react'
 import React, { useState, useEffect } from 'react';
+import variable from "../../dataValues/const"
 const localStorageAuthKey = 'twtr:auth';
 function getAccessToken() {
   if (typeof Storage !== 'undefined') {
@@ -29,7 +30,7 @@ export default function DetailPage(){
                 'Authorization': "Bearer "+access_token
             },
           }
-	  const res = await fetch('http://localhost:5000/booking/getlist',config);
+	  const res = await fetch(variable.backEndApi+'/booking/getlist',config);
       const results  = await res.json();
       console.log(results);
       setTweets(results.confirmed);

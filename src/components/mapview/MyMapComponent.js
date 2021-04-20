@@ -2,6 +2,7 @@
 import { compose, withProps } from "recompose";
 import React from "react";
 import ReactDOM from "react-dom";
+import varibale from "../../dataValues/const"
 import {
   withScriptjs,
   withGoogleMap,
@@ -28,9 +29,11 @@ const InternalMap = props => (
 );
 const MapHoc = withScriptjs(withGoogleMap(InternalMap));
 
+const url="https://maps.googleapis.com/maps/api/js?key="+varibale.googleKey+"&v=3.exp&libraries=geometry,drawing,places"
 const MyMapComponent = props => (
+  
   <MapHoc
-    googleMapURL='https://maps.googleapis.com/maps/api/js?key=AIzaSyBp_yhd9zuT070_ZoqKc--7kcUCXzAwMT0&v=3.exp&libraries=geometry,drawing,places'
+    googleMapURL={url}
     loadingElement={<div style={{ height: `100%` }} />}
     containerElement={<div style={{ height: `400px` }} />}
     mapElement={<div style={{ height: `100%` }} />}
