@@ -14,7 +14,7 @@ import {
 //    { lat: 36.2169884797185, lng: -112.056727493181 }
 //  ];
 const InternalMap = props => (
-  <GoogleMap defaultZoom={7} defaultCenter={{ lat: props.pathCoordinates[0].lat, lng: props.pathCoordinates[0].lng }}>
+  <GoogleMap defaultZoom={5} defaultCenter={{ lat: props.pathCoordinates[0].lat, lng: props.pathCoordinates[0].lng }}>
     <Polyline
       path={props.pathCoordinates}
       geodesic={true}
