@@ -28,4 +28,4 @@ phases:
   post_build:
     commands:
     - echo pushing prod images to ecr...
-    - docker push $username/twtr-fe:prod 
+    - docker push $username/uber-fe:prod
