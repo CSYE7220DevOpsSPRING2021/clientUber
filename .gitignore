@@ -9,7 +9,7 @@
 /coverage
 
 # production
-buildspec.yml
+#buildspec.yml
 
 # misc
 .DS_Store
