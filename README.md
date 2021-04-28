@@ -5,7 +5,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 the project is the front end for the uber app, the above code allow to build on code build and require the backend api.
 
 ## Pre-Requirement 
-  ### there should a code-build running on the aws server with the varible username = <your Docker user Name> and a password =<your Docker password> 
+  ### there should a code-build running on the aws server with the varible username = your Docker user Name and a password = your Docker password 
   ### the backend app should be running and it's cluster api should be set in the src/datavalue/const.js file for varibale name backendApi. 
 
 ## Install and build 
